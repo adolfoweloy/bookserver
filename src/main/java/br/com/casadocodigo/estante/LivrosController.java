@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import br.com.casadocodigo.registro.Usuario;
 import br.com.casadocodigo.registro.Usuarios;
+import br.com.casadocodigo.seguranca.UsuarioLogado;
 
 @Controller
 @RequestMapping("/livros")
@@ -22,9 +23,9 @@ public class LivrosController {
 
 	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<?> livros() {
-		
+
 		Estante estante = usuarioLogado().getEstante();
-		
+
 		if (estante.temLivros()) {
 			return new ResponseEntity<>(estante.todosLivros(), HttpStatus.OK);
 		} else {
@@ -46,6 +47,8 @@ public class LivrosController {
 
 	private Usuario usuarioLogado() {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		return usuarios.buscarPorID(((Usuario) authentication.getPrincipal()).getId());
+		UsuarioLogado usuarioLogado = (UsuarioLogado) authentication.getPrincipal();
+
+		return usuarios.buscarPorID(usuarioLogado.getId());
 	}
 }

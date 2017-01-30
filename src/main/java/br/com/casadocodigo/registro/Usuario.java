@@ -1,7 +1,5 @@
 package br.com.casadocodigo.registro;
 
-import java.util.Collection;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,18 +7,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import br.com.casadocodigo.estante.Estante;
 import lombok.Getter;
 
 @Entity
-public class Usuario implements UserDetails {
-
-	private static final long serialVersionUID = 1L;
+public class Usuario {
 
 	@Getter
 	@Id
@@ -46,41 +39,6 @@ public class Usuario implements UserDetails {
 		super();
 		this.nome = nome;
 		this.credenciais = credenciais;
-	}
-
-	@Override
-	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return null;
-	}
-
-	@Override
-	public String getPassword() {
-		return credenciais.getSenha();
-	}
-
-	@Override
-	public String getUsername() {
-		return credenciais.getEmail();
-	}
-
-	@Override
-	public boolean isAccountNonExpired() {
-		return true;
-	}
-
-	@Override
-	public boolean isAccountNonLocked() {
-		return true;
-	}
-
-	@Override
-	public boolean isCredentialsNonExpired() {
-		return true;
-	}
-
-	@Override
-	public boolean isEnabled() {
-		return true;
 	}
 
 }

@@ -6,17 +6,15 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
-import br.com.casadocodigo.registro.Usuarios;
-
 @EnableWebSecurity
 public class ConfiguracaoDeSeguranca extends WebSecurityConfigurerAdapter  {
 
 	@Autowired
-	private Usuarios usuarios;
+	private UserAuthenticationService userAuthenticationService;
 
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(usuarios);
+		auth.userDetailsService(userAuthenticationService);
 	}
 
 	@Override
