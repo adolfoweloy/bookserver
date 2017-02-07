@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
@@ -17,7 +18,6 @@ public class ConfiguracaoOAuth2 {
 
 	public static final String RESOURCE_ID = "books";
 
-	@Configuration
 	@EnableResourceServer
 	protected static class OAuth2ResourceServer extends ResourceServerConfigurerAdapter {
 
@@ -26,11 +26,12 @@ public class ConfiguracaoOAuth2 {
 			// @formatter:off
             http
                 .requestMatchers()
-                    .antMatchers("/oauth2/books/**").and()
+                    .antMatchers("/api/livros/**").and()
                 .authorizeRequests()
-                    .antMatchers("/oauth2/books/**").authenticated();
+                    .antMatchers("/api/livros/**").authenticated();
             // @formatter:on
 		}
+
 	}
 
 }
