@@ -11,6 +11,7 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
+import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
 
 @Configuration
@@ -19,7 +20,13 @@ public class ConfiguracaoOAuth2 {
 	public static final String RESOURCE_ID = "books";
 
 	@EnableResourceServer
-	protected static class OAuth2ResourceServer extends ResourceServerConfigurerAdapter {
+	protected static class OAuth2ResourceServer
+			extends ResourceServerConfigurerAdapter {
+
+		@Override
+		public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
+			resources.resourceId(RESOURCE_ID);
+		}
 
 		@Override
 		public void configure(HttpSecurity http) throws Exception {
@@ -30,6 +37,23 @@ public class ConfiguracaoOAuth2 {
                 .authorizeRequests()
                     .antMatchers("/api/livros/**").authenticated();
             // @formatter:on
+		}
+
+	}
+
+	@EnableAuthorizationServer
+	protected static class OAuth2AuthorizationServer
+			extends AuthorizationServerConfigurerAdapter {
+
+		@Override
+		public void configure(ClientDetailsServiceConfigurer clients)
+				throws Exception {
+
+			clients
+				.inMemory()
+					.withClient("cliente-curl")
+					.secret("123456")
+					.resourceIds(RESOURCE_ID);
 		}
 
 	}
