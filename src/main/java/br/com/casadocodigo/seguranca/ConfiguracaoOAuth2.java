@@ -45,6 +45,21 @@ public class ConfiguracaoOAuth2 {
 	protected static class OAuth2AuthorizationServer
 			extends AuthorizationServerConfigurerAdapter {
 
+		@Autowired
+		private AuthenticationManager authenticationManager;
+
+		@Autowired
+		private UserAuthenticationService userDetailsService;
+
+		@Override
+		public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
+			// @formatter:off
+			endpoints
+				.authenticationManager(authenticationManager)
+				.userDetailsService(userDetailsService);
+			// @formatter:on
+		}
+
 		@Override
 		public void configure(ClientDetailsServiceConfigurer clients)
 				throws Exception {
@@ -53,6 +68,9 @@ public class ConfiguracaoOAuth2 {
 				.inMemory()
 					.withClient("cliente-curl")
 					.secret("123456")
+					.authorizedGrantTypes("password", "refresh_token")
+					.scopes("read", "write")
+					.accessTokenValiditySeconds(60)
 					.resourceIds(RESOURCE_ID);
 		}
 
