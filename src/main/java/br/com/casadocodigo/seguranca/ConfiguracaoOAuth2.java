@@ -48,15 +48,11 @@ public class ConfiguracaoOAuth2 {
 		@Autowired
 		private AuthenticationManager authenticationManager;
 
-		@Autowired
-		private UserAuthenticationService userDetailsService;
-
 		@Override
 		public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
 			// @formatter:off
 			endpoints
-				.authenticationManager(authenticationManager)
-				.userDetailsService(userDetailsService);
+				.authenticationManager(authenticationManager);
 			// @formatter:on
 		}
 
@@ -68,9 +64,8 @@ public class ConfiguracaoOAuth2 {
 				.inMemory()
 					.withClient("cliente-curl")
 					.secret("123456")
-					.authorizedGrantTypes("password", "refresh_token")
+					.authorizedGrantTypes("password")
 					.scopes("read", "write")
-					.accessTokenValiditySeconds(60)
 					.resourceIds(RESOURCE_ID);
 		}
 
