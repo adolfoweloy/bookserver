@@ -53,6 +53,8 @@ public class ConfiguracaoOAuth2 {
 				.inMemory()
 					.withClient("cliente-curl")
 					.secret("123456")
+					.authorizedGrantTypes("authorization_code")
+					.scopes("read", "write")
 					.resourceIds(RESOURCE_ID);
 		}
 
